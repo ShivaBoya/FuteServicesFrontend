@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-primary: #6366f1;
+  --color-brand-secondary: #4f46e5;
+  --color-dark-bg: #0a0e1a;
+  --color-dark-card: #121829;
+  --color-dark-surface: #182235;
+  --color-dark-hover: #222e47;
+  --color-dark-border: rgba(255, 255, 255, 0.08);
+
+  --color-lead-new: #3b82f6;
+  --color-lead-contacted: #8b5cf6;
+  --color-lead-visit: #f59e0b;
+  --color-lead-closed: #10b981;
+  --color-lead-lost: #ef4444;
+
+  --font-sans: 'Outfit', system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    background-color: #0a0e1a;
+    color: #f3f4f6;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #222e47;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Shimmer Loading Animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    #121829 25%,
+    #1e2942 50%,
+    #121829 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* Smooth Modal Slide/Fade Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    backdrop-filter: blur(0px);
+  }
+  to {
+    opacity: 1;
+    backdrop-filter: blur(4px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-modal-overlay {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-modal-content {
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
