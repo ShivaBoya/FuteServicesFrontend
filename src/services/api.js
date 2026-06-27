@@ -1,3 +1,5 @@
+const API_URL = import.meta.env.VITE_API_URL || (import.meta.env.DEV ? '' : 'https://futeservicesbackend.onrender.com');
+
 const getAuthHeader = (token) => {
   const activeToken = token || localStorage.getItem('fute_access_token');
   return activeToken ? { Authorization: `Bearer ${activeToken}` } : {};
@@ -35,7 +37,7 @@ const customFetch = async (url, options = {}) => {
     headers,
   };
 
-  let response = await fetch(url, config);
+  let response = await fetch(`${API_URL}${url}`, config);
 
   if (response.status === 401 && !url.includes('/api/auth/login') && !url.includes('/api/auth/refresh')) {
     if (!isRefreshing) {
@@ -47,7 +49,7 @@ const customFetch = async (url, options = {}) => {
           throw new Error('No refresh token stored');
         }
 
-        const refreshRes = await fetch('/api/auth/refresh', {
+        const refreshRes = await fetch(`${API_URL}/api/auth/refresh`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ refreshToken }),
@@ -78,7 +80,7 @@ const customFetch = async (url, options = {}) => {
           ...config.headers,
           ...getAuthHeader(newToken),
         };
-        fetch(url, config)
+        fetch(`${API_URL}${url}`, config)
           .then((res) => handleResponse(res))
           .then(resolve)
           .catch(reject);
@@ -91,7 +93,7 @@ const customFetch = async (url, options = {}) => {
 
 export const api = {
   login: async (email, password) => {
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch(`${API_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
